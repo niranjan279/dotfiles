@@ -74,7 +74,11 @@ elif [ -f "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlightin
 fi
 
 # 2. History substring search next
-source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+if [ -f "/usr/share/zsh-history-substring-search/zsh-history-substring-search.zsh" ]; then
+    source /usr/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+elif [ -f "/usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh" ]; then
+    source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+fi
 
 # 3. Autosuggestions MUST go last so it can catch the others
 if [ -f "/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
@@ -86,8 +90,19 @@ fi
 # Force the plugin to fetch from your history strategy explicitly
 export ZSH_AUTOSUGGEST_STRATEGY=(history)
 # --- Restore FZF Keybindings & Completions ---
-source /usr/share/fzf/key-bindings.zsh
-source /usr/share/fzf/completion.zsh
+# FZF Key Bindings (Debian/Ubuntu fallback path included)
+if [ -f "/usr/share/doc/fzf/examples/key-bindings.zsh" ]; then
+    source /usr/share/doc/fzf/examples/key-bindings.zsh
+elif [ -f "/usr/share/fzf/key-bindings.zsh" ]; then
+    source /usr/share/fzf/key-bindings.zsh
+fi
+
+# FZF Completions (Debian/Ubuntu fallback path included)
+if [ -f "/usr/share/doc/fzf/examples/completion.zsh" ]; then
+    source /usr/share/doc/fzf/examples/completion.zsh
+elif [ -f "/usr/share/fzf/completion.zsh" ]; then
+    source /usr/share/fzf/completion.zsh
+fi
 
 # --- Command Line Tools Initialization ---
 eval "$(zoxide init zsh)"
