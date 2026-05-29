@@ -1,17 +1,43 @@
 #!/bin/bash
 
-# Unified package list
+# 1. Base packages that exist everywhere
 PACKAGES=(
   zsh
   neovim
   git
   curl
-  zoxide
+  fzf
 )
 
+# 2. Distro-specific logic
 {{ if eq .chezmoi.osRelease.id "arch" -}}
+# Add Arch-specific package names to the array
+PACKAGES+=(
+  zoxide 
+  starship 
+  zsh-autosuggestions 
+  zsh-syntax-highlighting 
+  zsh-history-substring-search
+)
+
 sudo pacman -Syu --needed --noconfirm "${PACKAGES[@]}"
+
 {{ else if eq .chezmoi.osRelease.id "ubuntu" "debian" -}}
+# Add Debian/Ubuntu-specific plugin names to the array
+PACKAGES+=(
+  zsh-autosuggestions 
+  zsh-syntax-highlighting 
+  zsh-history-substring-search
+)
+
 sudo apt-get update
 sudo apt-get install -y "${PACKAGES[@]}"
+
+# Fallback installers for Zoxide & Starship if apt doesn't have them
+if ! command -v zoxide &> /dev/null; then
+    curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+fi
+if ! command -v starship &> /dev/null; then
+    curl -sS https://starship.rs/install.sh | sh -s -- -y
+fi
 {{ end -}}
