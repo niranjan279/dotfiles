@@ -1,5 +1,7 @@
 # --- Environment Variables & Paths ---
 export PATH="$HOME/.local/bin:/home/cdlen/.lmstudio/bin:$PATH"
+export PATH="/usr/local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 export EDITOR="nvim"
 export FZF_BASE=/usr/share/fzf
 
