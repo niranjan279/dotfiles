@@ -67,13 +67,21 @@ bindkey -e
 # --- Zsh Plugins (Order matters for ghost text!) ---
 
 # 1. Syntax highlighting goes first
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [ -f "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
+    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh  # Debian/Ubuntu path
+elif [ -f "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
+    source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh  # Arch path
+fi
 
 # 2. History substring search next
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
 
 # 3. Autosuggestions MUST go last so it can catch the others
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+if [ -f "/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
+    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh  # Debian/Ubuntu path
+elif [ -f "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
+    source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh  # Arch path
+fi
 
 # Force the plugin to fetch from your history strategy explicitly
 export ZSH_AUTOSUGGEST_STRATEGY=(history)
